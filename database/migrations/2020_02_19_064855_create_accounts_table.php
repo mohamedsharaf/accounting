@@ -20,7 +20,7 @@ class CreateAccountsTable extends Migration
             $table->uuid('parent_id')->index()->nullable();
 
             $table->uuid('company_id')->index();
-            $table->uuid('branch_id')->index();
+            $table->uuid('branch_id')->index();//
             $table->uuid('currency_id')->index();
 
             $table->json('name');

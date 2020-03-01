@@ -20,8 +20,8 @@ class CreateJournalsTable extends Migration
             $table->uuid('company_id');
             $table->uuid('branch_id');
 
-            $table->double('amount', 15, 4);
-            $table->date('paid_at');
+            $table->double('amount', 15, 4);//total
+            $table->date('paid_at'); //date
 
             $table->text('description')->nullable();
             $table->string('reference')->nullable();

@@ -20,7 +20,6 @@ class CreateLedgersTable extends Migration
             $table->uuid('company_id');
             $table->uuid('account_id');
 
-
             $table->string('ledgerable_type');
             $table->uuid('ledgerable_id');
             $table->index(['ledgerable_type', 'ledgerable_id']);
@@ -34,7 +33,7 @@ class CreateLedgersTable extends Migration
             $table->double('amount', 15, 4)->nullable();
             $table->double('amount_foreign', 15, 4)->nullable();
 
-            $table->double('foreign_rate')->nullable();
+            $table->double('foreign_rate')->default(1);
 
             $table->string('reference')->nullable();
 
