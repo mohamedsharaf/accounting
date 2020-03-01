@@ -26,7 +26,21 @@ class Account extends Model
         'final',// no childs
 
 
-
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function ledgers()
+    {
+        return $this->morphMany(Ledger::class, 'ledgerable');
+    }
 
 }
