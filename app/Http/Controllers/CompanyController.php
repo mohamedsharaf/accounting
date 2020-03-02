@@ -14,7 +14,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return  Company::all();
+        $company = Company::with('Branches', 'Currencies')->get();
+        return response()->json($company, 200);
     }
 
     /**
@@ -46,7 +47,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        return response()->json($company, 200);
     }
 
     /**

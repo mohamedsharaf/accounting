@@ -34,7 +34,7 @@ class Currency extends Model
         'enabled',
     ];
 
-    public function company()
+    public function Company()
     {
         return $this->belongsTo(Company::class);
     }

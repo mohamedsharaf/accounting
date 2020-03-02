@@ -82,5 +82,24 @@ $branch1 = \App\Branch::firstOrCreate(
                 ],
             ]
         );
+
+        $currency = \App\Currency::firstOrCreate(
+            [
+                'company_id' => $company2->id,
+
+                'name' => [
+                    'en' => 'Riyal',
+                    'ar' => 'ريال',
+                ],
+                'code' => 'SAR',
+                'rate' => 1,
+                'precision' => 1,
+                'symbol' => 1,
+                'symbol_first' => 1,
+                'decimal_mark' => '.',
+                'thousands_separator' => ',',
+
+            ]
+        );
     }
 }

@@ -24,8 +24,6 @@ class Account extends Model
         'natural', //credit/debit
         'freeze', // frozen
         'final',// no childs
-
-
     ];
 
     public function company()

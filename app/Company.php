@@ -45,4 +45,11 @@ class Company extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    //Niypoo
+    public function Accounts()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
 }

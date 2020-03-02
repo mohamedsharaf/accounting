@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Company;
 use Illuminate\Http\Request;
-
+use Validator;
 class AccountController extends Controller
 {
     /**
@@ -35,7 +36,20 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::Make($request->all(),
+            [
+                'parent_id'=>'required',
+                'name'=>'required',
+                'code'=>'required',
+                'company_id'=>'required',
+            ]
+        );
+
+        if($validation->fails())
+        return response()->json($validation->errors->all(), 422);
+        $company = Company::find($request->company_id);
+        $company->Accounts()->create($request->all());
+        return response()->json($company, 200);
     }
 
     /**
@@ -46,7 +60,7 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        return response()->json($account, 200);
     }
 
     /**
