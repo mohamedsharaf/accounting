@@ -33,11 +33,11 @@ class CreateAccountsTable extends Migration
             $table->tinyInteger('natural'); // D =1 & C =0
             $table->tinyInteger('freeze')->default(0);
             $table->tinyInteger('final')->default(0);
+            $table->integer('level')->nullable();
 
 
             $table->timestamps();
             $table->softDeletes();
-
 
         });
     }

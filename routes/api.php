@@ -14,4 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::resource('company', 'CompanyController');
+Route::resource('journal', 'JournalController');
 Route::resource('account', 'AccountController');
+Route::post('account/search', 'AccountController@search');

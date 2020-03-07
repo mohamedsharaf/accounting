@@ -31,26 +31,32 @@ class AccountSeeder extends Seeder
                         'notes' => 'notes',
                         'natural' => 0,
                         'final' => 0,
+                        "children"=>[
+                                // sub level 2
+                                [
+                                    'name' => 'Account AAA1',
+                                    'code' => '101010',
+                                    'description' => 'description',
+                                    'notes' => 'notes',
+                                    'natural' => 0,
+                                    'final' => 0,
+                                    "children" => [
+                                        [
+                                            // sub level 3
+                                            'name' => 'Account AAAA1',
+                                            'code' => '10101010',
+                                            'description' => 'description',
+                                            'notes' => 'notes',
+                                            'natural' => 0,
+                                            'final' => 0,
+                                        ],
+                                    
+                                    ],
+                                ],
+                                
+                            ]
+                        ]
                     ],
-                    // sub level 2
-                    [
-                        'name' => 'Account AAA1',
-                        'code' => '101010',
-                        'description' => 'description',
-                        'notes' => 'notes',
-                        'natural' => 0,
-                        'final' => 0,
-                    ],
-                    // sub level 3
-                    [
-                        'name' => 'Account AAAA1',
-                        'code' => '10101010',
-                        'description' => 'description',
-                        'notes' => 'notes',
-                        'natural' => 0,
-                        'final' => 0,
-                    ],
-                ]
             ],
            
             // parent
@@ -99,9 +105,9 @@ class AccountSeeder extends Seeder
             {
 
                 $value['parent_id'] = $parent;
-                $value['company_id'] = $company->id ?? '111';
-                $value['branch_id'] = $branch[0]->id ?? '222';
-                $value['currency_id'] = $currency[0]->id ?? '333';
+                $value['company_id'] = $company->id ;
+                $value['branch_id'] = $branch[0]->id ;
+                $value['currency_id'] = $currency[0]->id;
                 $children = null;
 
                 if(isset($value['children'])){
@@ -111,6 +117,7 @@ class AccountSeeder extends Seeder
 
                 
                $account = Account::firstOrCreate($value);
+
                if($children!=null){
                     $this->createAccount($children, $account->id);
                }

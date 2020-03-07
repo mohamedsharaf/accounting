@@ -6,6 +6,7 @@ use App\Account;
 use App\Company;
 use Illuminate\Http\Request;
 use Validator;
+use AccountHelper;
 class AccountController extends Controller
 {
     /**
@@ -15,9 +16,13 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = Account::where('parent_id',null)->get();
+        $accounts = AccountHelper::getChildrenOfParents($accounts);
+        return response()->json($accounts, 200);
     }
 
+
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -53,6 +58,27 @@ class AccountController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $searchKey = $request->key;
+
+        if(!$searchKey) return response()->json([], 200);
+        $accounts = Account::where('code', 'like', "%$searchKey%")
+                            ->orWhere(
+                                [
+                                    ['name', 'like', "%$searchKey%"],
+                                ]
+                            )->get();
+
+        return response()->json($accounts, 200);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Account  $account
@@ -83,7 +109,20 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        //
+        $validation = Validator::Make(
+            $request->all(),
+            [
+                'parent_id' => 'required',
+                'name' => 'required',
+                'code' => 'required',
+                'company_id' => 'required',
+            ]
+        );
+
+        if ($validation->fails()) return response()->json($validation->errors->all(), 422);
+
+        $account->update($request->all());
+        return response()->json($account, 200);
     }
 
     /**

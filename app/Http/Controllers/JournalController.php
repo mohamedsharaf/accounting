@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Journal;
 use Illuminate\Http\Request;
-
+use DateTime;
 class JournalController extends Controller
 {
     /**
@@ -35,7 +35,32 @@ class JournalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $journal = Journal::create($request->all());
+        
+        foreach ($request->ledger_rows as $ledger) {
+
+            $ledgerType = isset($ledger['credit']) ? 'credit' : 'debit';
+            $amount    = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
+
+            $journal->ledgers()->create(
+                [
+                    'company_id'=> $request->company_id,
+                    'account_id'=> $ledger['account_id'],
+                    'ledgerable_type'=> $ledgerType,
+                    'ledgerable_id'=> $request->company_id,
+                    'issued_at'=> new DateTime() ,
+                    'entry_type'=> $ledgerType,
+                    'debit'=> $ledger['debit'],
+                    'credit'=> $ledger['credit'],
+                    'amount' => $amount,
+                    'amount_foreign' => $amount,
+                ]
+            );
+
+        }
+        
+        return response()->json($journal , 200);
     }
 
     /**
