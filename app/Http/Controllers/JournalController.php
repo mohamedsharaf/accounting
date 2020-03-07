@@ -35,7 +35,10 @@ class JournalController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //convert date to dateTime
+        $request['paid_at'] = new DateTime($request->paid_at);
+
+        //add date 
         $journal = Journal::create($request->all());
         
         foreach ($request->ledger_rows as $ledger) {
@@ -45,11 +48,12 @@ class JournalController extends Controller
 
             $journal->ledgers()->create(
                 [
-                    'company_id'=> $request->company_id,
-                    'account_id'=> $ledger['account_id'],
-                    'ledgerable_type'=> $ledgerType,
-                    'ledgerable_id'=> $request->company_id,
-                    'issued_at'=> new DateTime() ,
+                    'company_id' => $request->company_id,
+                    'branch_id'  => $request->branch_id,
+                    'account_id' => $ledger['account_id'],
+                    // 'ledgerable_type'=> $ledgerType,
+                    // 'ledgerable_id'=> $request->company_id,
+                    'issued_at'=> new DateTime(), // date of journal
                     'entry_type'=> $ledgerType,
                     'debit'=> $ledger['debit'],
                     'credit'=> $ledger['credit'],

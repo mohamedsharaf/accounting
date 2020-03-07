@@ -18,10 +18,10 @@ class CreateLedgersTable extends Migration
 
             $table->uuid('id')->primary();
             $table->uuid('company_id');
+            $table->uuid('branch_id'); // must add 
             $table->uuid('account_id');
 
-            $table->uuid('journal_id');
-            $table->string('ledgerable_type'); ///
+            $table->string('ledgerable_type'); /// 
             $table->uuid('ledgerable_id'); ///
             $table->index(['ledgerable_type', 'ledgerable_id']);
 
