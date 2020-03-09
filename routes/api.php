@@ -14,6 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::resource('company', 'CompanyController');
+
 Route::resource('journal', 'JournalController');
+
+Route::get('journal/bycompany/{company}', 'JournalController@indexCompany');
+
 Route::resource('account', 'AccountController');
 Route::post('account/search', 'AccountController@search');

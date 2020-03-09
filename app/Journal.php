@@ -18,4 +18,9 @@ class Journal extends Model
         return $this->morphMany(Ledger::class, 'ledgerable');
     }
 
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

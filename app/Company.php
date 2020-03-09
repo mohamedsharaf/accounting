@@ -51,5 +51,10 @@ class Company extends Model
     {
         return $this->belongsTo(Account::class);
     }
+    
+    public function journals()
+    {
+        return $this->hasMany(Journal::class, 'company_id', 'id')->with('ledgers');
+    }
 
 }
