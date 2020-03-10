@@ -6,6 +6,7 @@ use App\Company;
 use App\Journal;
 use Illuminate\Http\Request;
 use DateTime;
+
 class JournalController extends Controller
 {
     /**
@@ -42,47 +43,53 @@ class JournalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        $validation = Validator::Make($request->all(),
+            [
+                'parent_id'=>'required',
+                'name'=>'required',
+                'code'=>'required',
+                'company_id'=>'required',
+            ]
+        );
+
         //convert date to dateTime
         $request['paid_at'] = new DateTime($request->paid_at);
 
-        //add date 
+        //add date
         $journal = Journal::create($request->all());
-        
-        foreach ($request->ledger_rows as $ledger) {
 
-            $ledgerType = isset($ledger['credit']) ? 'credit' : 'debit';
-            $amount    = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
 
-            $journal->ledgers()->create(
-                [
-                    'company_id' => $request->company_id,
-                    'branch_id'  => $request->branch_id,
-                    'account_id' => $ledger['account_id'],
-                    // 'ledgerable_type'=> $ledgerType,
-                    // 'ledgerable_id'=> $request->company_id,
-                    'issued_at'=> new DateTime(), // date of journal
-                    'entry_type'=> $ledgerType,
-                    'debit'=> $ledger['debit'],
-                    'credit'=> $ledger['credit'],
-                    'amount' => $amount,
-                    'amount_foreign' => $amount,
-                ]
-            );
-
+        foreach ($request->ledger_rows as $key => $ledger) {
+            //TODO VIP Security : check every account company and branch  belongs to auth user company and branch
+            if (
+            isset($ledger['account_id'])
+            ) {
+                $amount = isset($ledger['debit']) ? $ledger['debit'] * -1 : $ledger['credit'];
+                $journal->ledgers()->create(
+                    [
+                        'company_id' => $request->company_id,
+                        'branch_id' => $request->branch_id,
+                        'account_id' => $ledger['account_id'],
+                        'issued_at' => $journal->paid_at, // date of journal
+                        'amount' => $amount,
+                    ]
+                );
+            }
         }
-        
-        return response()->json($journal , 200);
+
+        return response()->json($journal, 200);
     }
+
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Journal  $journal
+     * @param \App\Journal $journal
      * @return \Illuminate\Http\Response
      */
     public function show($journalId)
@@ -94,7 +101,7 @@ class JournalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Journal  $journal
+     * @param \App\Journal $journal
      * @return \Illuminate\Http\Response
      */
     public function edit(Journal $journal)
@@ -105,8 +112,8 @@ class JournalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Journal  $journal
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Journal $journal
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Journal $journal)
@@ -114,18 +121,18 @@ class JournalController extends Controller
         //convert date to dateTime
         $request['paid_at'] = new DateTime($request->paid_at);
 
-        //add date 
+        //add date
         $journal->update($request->all());
         $journal->ledgers()->delete();
         foreach ($request->ledger_rows as $ledger) {
 
             $ledgerType = isset($ledger['credit']) ? 'credit' : 'debit';
-            $amount    = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
+            $amount = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
 
             $journal->ledgers()->create(
                 [
                     'company_id' => $request->company_id,
-                    'branch_id'  => $request->branch_id,
+                    'branch_id' => $request->branch_id,
                     'account_id' => $ledger['account_id'],
                     'issued_at' => $journal->created_at, // date of journal
                     'entry_type' => $ledgerType,
@@ -143,7 +150,7 @@ class JournalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Journal  $journal
+     * @param \App\Journal $journal
      * @return \Illuminate\Http\Response
      */
     public function destroy(Journal $journal)

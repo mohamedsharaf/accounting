@@ -6,11 +6,35 @@ namespace App;
 
 class Ledger extends Model
 {
- 
+
     protected $fillable = [
         'id', 'company_id', 'account_id', 'journal_id', 'branch_id',
         'ledgerable_type', 'ledgerable_id', 'issued_at',
         'entry_type', 'debit', 'credit', 'amount', 'amount_foreign', 'foreign_rate', 'reference'];
+
+
+    public static function boot(){
+        parent::boot();
+        self::saving(function($model){
+            if($model->amount > 0){
+                $model->credit = $model->amount ;
+            }
+            if($model->amount < 0){
+                $model->debit = $model->amount  * -1;
+            }
+
+            if(!isset($model->foreign_rate)){
+                //TODO work on handling exchange rate options
+                $model->foreign_rate = 1;
+            }
+            if(!isset($model->amount_foreign)){
+                //TODO work on handling exchange rate options
+                $model->amount_foreign = $model->amount;
+            }
+
+
+        });
+    }
 
     public function ledgerable()
     {
