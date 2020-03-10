@@ -85,9 +85,10 @@ class JournalController extends Controller
      * @param  \App\Journal  $journal
      * @return \Illuminate\Http\Response
      */
-    public function show(Journal $journal)
+    public function show($journalId)
     {
-        //
+        $journal = Journal::with('ledgers')->find($journalId);
+        return response()->json($journal, 200);
     }
 
     /**
@@ -110,7 +111,33 @@ class JournalController extends Controller
      */
     public function update(Request $request, Journal $journal)
     {
-        //
+        //convert date to dateTime
+        $request['paid_at'] = new DateTime($request->paid_at);
+
+        //add date 
+        $journal->update($request->all());
+        $journal->ledgers()->delete();
+        foreach ($request->ledger_rows as $ledger) {
+
+            $ledgerType = isset($ledger['credit']) ? 'credit' : 'debit';
+            $amount    = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
+
+            $journal->ledgers()->create(
+                [
+                    'company_id' => $request->company_id,
+                    'branch_id'  => $request->branch_id,
+                    'account_id' => $ledger['account_id'],
+                    'issued_at' => $journal->created_at, // date of journal
+                    'entry_type' => $ledgerType,
+                    'debit' => $ledger['debit'],
+                    'credit' => $ledger['credit'],
+                    'amount' => $amount,
+                    'amount_foreign' => $amount,
+                ]
+            );
+        }
+
+        return response()->json($journal, 200);
     }
 
     /**
@@ -121,6 +148,7 @@ class JournalController extends Controller
      */
     public function destroy(Journal $journal)
     {
-        //
+        $journal->delete();
+        return response()->json(true, 200);
     }
 }
