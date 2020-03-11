@@ -92,9 +92,9 @@ class JournalController extends Controller
      * @param \App\Journal $journal
      * @return \Illuminate\Http\Response
      */
-    public function show($journalId)
+    public function show(Journal $journal)
     {
-        $journal = Journal::with('ledgers')->find($journalId);
+        $journal['ledgers'] = $journal->ledgers;
         return response()->json($journal, 200);
     }
 
