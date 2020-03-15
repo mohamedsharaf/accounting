@@ -6,7 +6,7 @@ use App\Company;
 use App\Journal;
 use Illuminate\Http\Request;
 use DateTime;
-
+use Validator;
 class JournalController extends Controller
 {
     /**
@@ -79,6 +79,7 @@ class JournalController extends Controller
                         'amount' => $amount,
                     ]
                 );
+                
             }
         }
 
@@ -125,23 +126,21 @@ class JournalController extends Controller
         $journal->update($request->all());
         $journal->ledgers()->delete();
         foreach ($request->ledger_rows as $ledger) {
-
-            $ledgerType = isset($ledger['credit']) ? 'credit' : 'debit';
-            $amount = isset($ledger['debit']) ? $ledger['debit'] : $ledger['credit'];
-
-            $journal->ledgers()->create(
-                [
-                    'company_id' => $request->company_id,
-                    'branch_id' => $request->branch_id,
-                    'account_id' => $ledger['account_id'],
-                    'issued_at' => $journal->created_at, // date of journal
-                    'entry_type' => $ledgerType,
-                    'debit' => $ledger['debit'],
-                    'credit' => $ledger['credit'],
-                    'amount' => $amount,
-                    'amount_foreign' => $amount,
-                ]
-            );
+            //TODO VIP Security : check every account company and branch  belongs to auth user company and branch
+            if (
+                isset($ledger['account_id'])
+            ) {
+                $amount = isset($ledger['debit']) ? $ledger['debit'] * -1 : $ledger['credit'];
+                $journal->ledgers()->create(
+                    [
+                        'company_id' => $request->company_id,
+                        'branch_id' => $request->branch_id,
+                        'account_id' => $ledger['account_id'],
+                        'issued_at' => $journal->paid_at, // date of journal
+                        'amount' => $amount,
+                    ]
+                );
+            }
         }
 
         return response()->json($journal, 200);
