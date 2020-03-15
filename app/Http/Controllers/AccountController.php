@@ -43,7 +43,7 @@ class AccountController extends Controller
     {
         $validation = Validator::Make($request->all(),
             [
-                'parent_id'=>'required',
+                // 'parent_id'=>'required',
                 'name'=>'required',
                 'code'=>'required',
                 'company_id'=>'required',
@@ -112,14 +112,14 @@ class AccountController extends Controller
         $validation = Validator::Make(
             $request->all(),
             [
-                'parent_id' => 'required',
+                // 'parent_id' => 'required',
                 'name' => 'required',
                 'code' => 'required',
                 'company_id' => 'required',
             ]
         );
 
-        if ($validation->fails()) return response()->json($validation->errors->all(), 422);
+        if ($validation->fails()) return response()->json($validation->errors()->all(), 422);
 
         $account->update($request->all());
         return response()->json($account, 200);
