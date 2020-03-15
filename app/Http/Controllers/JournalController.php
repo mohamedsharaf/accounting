@@ -154,6 +154,7 @@ class JournalController extends Controller
      */
     public function destroy(Journal $journal)
     {
+        $journal->ledgers()->delete();
         $journal->delete();
         return response()->json(true, 200);
     }
