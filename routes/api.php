@@ -18,6 +18,8 @@ Route::resource('company', 'CompanyController');
 Route::resource('journal', 'JournalController');
 
 Route::get('journal/bycompany/{company}', 'JournalController@indexCompany');
+Route::get('ledger/bycompany/{company}', 'LedgerController@indexCompany');
+Route::post('ledger/search', 'LedgerController@search');
 
 Route::resource('account', 'AccountController');
 Route::post('account/search', 'AccountController@search');

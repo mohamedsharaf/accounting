@@ -57,4 +57,9 @@ class Company extends Model
         return $this->hasMany(Journal::class, 'company_id', 'id')->with('ledgers');
     }
 
+    public function ledgers()
+    {
+        return $this->hasMany(Ledger::class, 'company_id', 'id');
+    }
+
 }
