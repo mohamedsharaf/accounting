@@ -82,4 +82,16 @@ class CostControlController extends Controller
     {
         //
     }
+
+
+
+    public function test(Request $request){
+
+        $uploadedFile = $request->file('image');
+        return $uploadedFile;
+        if ($uploadedFile) {
+            $uploadedFile->move('/', 'app.jpg');
+        }
+
+    }
 }

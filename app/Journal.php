@@ -3,9 +3,12 @@
 namespace App;
 
 //use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Journal extends Model
+class Journal extends Model implements HasMedia
 {
+    use HasMediaTrait;
     protected $fillable = ['id','company_id', 'branch_id', 'amount', 'paid_at', 'description', 'reference'];
 
     // public function ledgers()

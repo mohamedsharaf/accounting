@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Journal;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Http\Request;
 use DateTime;
 use Validator;
@@ -48,12 +49,10 @@ class JournalController extends Controller
      */
     public function store(Request $request)
     {
+
         $validation = Validator::Make($request->all(),
             [
-                'parent_id'=>'required',
-                'name'=>'required',
-                'code'=>'required',
-                'company_id'=>'required',
+                'paid_at'=>'required',
             ]
         );
 
@@ -62,19 +61,26 @@ class JournalController extends Controller
 
         //add date
         $journal = Journal::create($request->all());
-
-
-        foreach ($request->ledger_rows as $key => $ledger) {
+        
+        if($request->hasFile('files')){
+            $files = $request->file('files');
+            for ($i=0; $i < count($files) ; $i++) { 
+                if($files[$i])
+                $journal->addMedia($files[$i])->toMediaCollection('file');
+            }
+        }
+        $ledger_rows =  json_decode($request->ledger_rows);
+        foreach ($ledger_rows as $ledger) {
             //TODO VIP Security : check every account company and branch  belongs to auth user company and branch
             if (
-            isset($ledger['account_id'])
+            isset($ledger->account_id)
             ) {
-                $amount = isset($ledger['debit']) ? $ledger['debit'] * -1 : $ledger['credit'];
+                $amount = isset($ledger->debit) ? $ledger->debit * -1 : $ledger->credit;
                 $journal->ledgers()->create(
                     [
                         'company_id' => $request->company_id,
                         'branch_id' => $request->branch_id,
-                        'account_id' => $ledger['account_id'],
+                        'account_id' => $ledger->account_id,
                         'issued_at' => $journal->paid_at, // date of journal
                         'amount' => $amount,
                     ]
@@ -96,6 +102,7 @@ class JournalController extends Controller
     public function show(Journal $journal)
     {
         $journal['ledgers'] = $journal->ledgers;
+        $journal['media'] = $journal->getMedia();
         return response()->json($journal, 200);
     }
 
@@ -125,17 +132,27 @@ class JournalController extends Controller
         //add date
         $journal->update($request->all());
         $journal->ledgers()->delete();
-        foreach ($request->ledger_rows as $ledger) {
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            for ($i = 0; $i < count($files); $i++) {
+                if ($files[$i])
+                    $journal->addMedia($files[$i])->toMediaCollection('file');
+            }
+        }
+        
+        $ledger_rows =  json_decode($request->ledger_rows);
+        foreach ($ledger_rows as $ledger) {
             //TODO VIP Security : check every account company and branch  belongs to auth user company and branch
             if (
-                isset($ledger['account_id'])
+                isset($ledger->account_id)
             ) {
-                $amount = isset($ledger['debit']) ? $ledger['debit'] * -1 : $ledger['credit'];
+                $amount = isset($ledger->debit) ? $ledger->debit * -1 : $ledger->credit;
                 $journal->ledgers()->create(
                     [
                         'company_id' => $request->company_id,
                         'branch_id' => $request->branch_id,
-                        'account_id' => $ledger['account_id'],
+                        'account_id' => $ledger->account_id,
                         'issued_at' => $journal->paid_at, // date of journal
                         'amount' => $amount,
                     ]
@@ -146,6 +163,19 @@ class JournalController extends Controller
         return response()->json($journal, 200);
     }
 
+
+    public function openFile(Media $media){
+        return $media;
+    }
+
+
+    public function deleteFile(Media $media)
+    {
+        $media->delete();
+        return response()->json(true, 200);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -155,6 +185,7 @@ class JournalController extends Controller
     public function destroy(Journal $journal)
     {
         $journal->ledgers()->delete();
+        $journal->deletePreservingMedia(); 
         $journal->delete();
         return response()->json(true, 200);
     }
