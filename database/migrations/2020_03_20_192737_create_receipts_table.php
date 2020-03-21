@@ -13,9 +13,24 @@ class CreateReceiptsTable extends Migration
      */
     public function up()
     {
+
         Schema::create('receipts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
+
+            $table->uuid('company_id')->index();
+            $table->uuid('branch_id')->index();
+            $table->uuid('currency_id')->index();
+
+            $table->uuid('client_id')->index();
+            $table->string('barcode')->nullable();
+            $table->string('discount')->nullable();
+            $table->string('tax')->nullable();
+            $table->string('total_Payable')->nullable();
+
+            $table->string('status')->default('none'); // none/payed/draft
+            
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

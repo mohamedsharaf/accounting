@@ -2,13 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Receipt extends Model
 {
-    public function products()
+
+    public function items()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Item::class, 'receipt_item');
     }
 
     public function client()
