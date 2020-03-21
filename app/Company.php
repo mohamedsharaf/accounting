@@ -8,6 +8,7 @@ class Company extends Model
 {
 
     public $translatable = ['name'];
+    public $with = ['branches', 'Currencies'];
 
     protected $fillable = [
         'id',
@@ -32,12 +33,12 @@ class Company extends Model
 
     public function Branches()
     {
-        return $this->hasMany(Branch::class);
+        return $this->hasMany(Branch::class , 'company_id', 'id');
     }
 
     public function Currencies()
     {
-        return $this->hasMany(Currency::class);
+        return $this->hasMany(Currency::class, 'company_id', 'id');
     }
 
 

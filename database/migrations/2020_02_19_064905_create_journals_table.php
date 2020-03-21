@@ -15,8 +15,8 @@ class CreateJournalsTable extends Migration
     {
         Schema::create('journals', function (Blueprint $table) {
 
-            $table->uuid('id')->index();
-            $table->bigInteger('number')->autoIncrement();
+            $table->uuid('id')->primary();
+            // $table->bigInteger('number')->autoIncrement();
 
             $table->uuid('company_id');
             $table->uuid('branch_id');
