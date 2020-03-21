@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->uuid('branch_id')->index();
             $table->uuid('currency_id')->index();
 
-            $table->uuid('parent_id')->index()->nullable();
+            $table->uuid('category_id')->index()->nullable();
             $table->string('title');
             $table->timestamps();
             $table->softDeletes();

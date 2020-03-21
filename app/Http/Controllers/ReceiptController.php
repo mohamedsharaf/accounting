@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Receipt;
 use Illuminate\Http\Request;
-
+use Validator;
 class ReceiptController extends Controller
 {
     /**
@@ -35,7 +35,21 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(),[
+            'client_id'=> 'required',
+            'total_payable'=>'required',
+            'items'=>'required',
+        ]);
+
+        if($validation->fails()) return response()->json($validation->errors()->all(), 422);
+
+        $items = $request->items;
+        unset($request['items']);
+
+        $receipt = Receipt::create($request->all());
+        $receipt->items()->sync($items);
+
+        return response()->json($receipt, 200);
     }
 
     /**

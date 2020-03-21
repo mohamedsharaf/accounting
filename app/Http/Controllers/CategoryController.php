@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Company;
+use App\Helpers\CategoryHelper;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,8 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Category::all(), 200);
     }
+
 
     /**
      * Show the form for creating a new resource.

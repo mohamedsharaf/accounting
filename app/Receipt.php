@@ -4,6 +4,7 @@ namespace App;
 
 class Receipt extends Model
 {
+    protected $guarded = [];
 
     public function items()
     {

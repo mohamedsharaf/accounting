@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Company;
 use App\Category;
+use App\Client;
 
 class POS extends Seeder
 {
@@ -14,6 +15,24 @@ class POS extends Seeder
     public function run()
     {
 
+        $company = Company::first();
+        $branch  = $company->Branches;
+        $currency  = $company->Currencies;
+
+        for ($i=0; $i < 10; $i++) { 
+            Client::create(
+                [
+                    'company_id'=> $company->id,
+                    'branch_id'=> $branch[0]->id,
+                    'currency_id'=> $currency[0]->id,
+                    'name'=>'Client '. $i,
+                    'mobile'=> '0000001' .$i,
+                    'email'=>'client'. $i.'@emial.com',
+                    'address'=> '2A street 4floor',
+                ]
+            );
+        }
+
         $categories = [
             // parent
             [
@@ -23,24 +42,24 @@ class POS extends Seeder
                     [
                         'title' => 'كوبايات',
                         "items" => [
-                            ['title' => 'فانليا', 'img' => '1.jpg', 'quantity' => 3, 'price' => 10],
-                            ['title' => 'مستكه', 'img' => '2.jpg', 'quantity' => 4, 'price' => 2],
-                            ['title' => 'فسدق', 'img' => '3.jpg', 'quantity' => 5, 'price' => 4],
-                            ['title' => 'بندق', 'img' => '1.jpg', 'quantity' => 8, 'price' => 7],
-                            ['title' => 'زبادي', 'img' => '3.jpg', 'quantity' => 6, 'price' => 8],
-                            ['title' => 'بطيخ', 'img' => '2.jpg', 'quantity' => 3, 'price' => 9],
+                            ['title' => 'فانليا', 'img' => url('http://accounting.test/1.jpg'), 'quantity' => 3, 'price' => 10],
+                            ['title' => 'مستكه', 'img' => url('http://accounting.test/2.jpg'), 'quantity' => 4, 'price' => 2],
+                            ['title' => 'فسدق', 'img' => url('http://accounting.test/3.jpg'), 'quantity' => 5, 'price' => 4],
+                            ['title' => 'بندق', 'img' => url('http://accounting.test/1.jpg'), 'quantity' => 8, 'price' => 7],
+                            ['title' => 'زبادي', 'img' => url('http://accounting.test/3.jpg'), 'quantity' => 6, 'price' => 8],
+                            ['title' => 'بطيخ', 'img' => url('http://accounting.test/2.jpg'), 'quantity' => 3, 'price' => 9],
                         ]
                     ],
                     //sub level 1
                     [
                         'title' => 'بسكويت',
                         "items" => [
-                            [ 'title'=> 'فانليا', 'img'=> '1.jpg', 'quantity'=> 4, 'price'=> 12 ],
-                            [ 'title'=> 'مستكه', 'img'=> '2.jpg', 'quantity'=> 3, 'price'=> 20 ],
-                            [ 'title'=> 'فسدق', 'img'=> '3.jpg', 'quantity'=> 6, 'price'=> 40 ],
-                            [ 'title'=> 'بندق', 'img'=> '1.jpg', 'quantity'=> 7, 'price'=> 10 ],
-                            [ 'title'=> 'زبادي', 'img'=> '3.jpg', 'quantity'=> 2, 'price'=> 9 ],
-                            [ 'title'=> 'بطيخ', 'img'=> '2.jpg', 'quantity'=> 1, 'price'=> 20 ],
+                            [ 'title'=> 'فانليا', 'img'=> url('http://accounting.test/1.jpg'), 'quantity'=> 4, 'price'=> 12 ],
+                            [ 'title'=> 'مستكه', 'img'=> url('http://accounting.test/2.jpg'), 'quantity'=> 3, 'price'=> 20 ],
+                            [ 'title'=> 'فسدق', 'img'=> url('http://accounting.test/3.jpg'), 'quantity'=> 6, 'price'=> 40 ],
+                            [ 'title'=> 'بندق', 'img'=> url('http://accounting.test/1.jpg'), 'quantity'=> 7, 'price'=> 10 ],
+                            [ 'title'=> 'زبادي', 'img'=> url('http://accounting.test/3.jpg'), 'quantity'=> 2, 'price'=> 9 ],
+                            [ 'title'=> 'بطيخ', 'img'=> url('http://accounting.test/2.jpg'), 'quantity'=> 1, 'price'=> 20 ],
                         ]
                     ]
                 ],
@@ -63,7 +82,7 @@ class POS extends Seeder
         foreach ($data as $value) {
             if ($value != null) {
 
-                $value['parent_id'] = $parent;
+                $value['category_id'] = $parent;
                 $value['company_id'] = $company->id;
                 $value['branch_id'] = $branch[0]->id;
                 $value['currency_id'] = $currency[0]->id;

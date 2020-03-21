@@ -229,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'AccountHelper' => App\Helpers\AccountHelper::class,
+        'CategoryHelper' => App\Helpers\CategoryHelper::class,
 
     ],
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use App\Helpers\CategoryHelper;
 
 class CompanyController extends Controller
 {
@@ -83,4 +84,31 @@ class CompanyController extends Controller
     {
         //
     }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function categories(Company $company)
+    {
+        $categories =  $company->categories()->whereNull('category_id')->get();
+        $categories = CategoryHelper::getChildrenOfCategoriesParents($categories);
+        return response()->json($categories, 200);
+    }
+
+
+    /**
+     * Display a listing of the resource. 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function clients(Company $company)
+    {
+        return response()->json($company->clients, 200);
+    }
+
+
+
 }

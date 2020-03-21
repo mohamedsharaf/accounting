@@ -63,4 +63,14 @@ class Company extends Model
         return $this->hasMany(Ledger::class, 'company_id', 'id');
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class)->where('category_id',null);
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
 }

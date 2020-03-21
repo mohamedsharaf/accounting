@@ -25,8 +25,9 @@ class CreateReceiptsTable extends Migration
             $table->string('barcode')->nullable();
             $table->string('discount')->nullable();
             $table->string('tax')->nullable();
-            $table->string('total_Payable')->nullable();
+            $table->string('total_payable')->nullable();
 
+            $table->string('payment_type')->default('cash'); // cash/card/multipay
             $table->string('status')->default('none'); // none/payed/draft
             
             $table->timestamps();

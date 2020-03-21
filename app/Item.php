@@ -5,13 +5,13 @@ namespace App;
 class Item extends Model
 {
 
+    protected $guarded = [];
 
     protected $casts = [
         'id' => 'uuid',
         'company_id' => 'uuid',
         'branch_id' => 'uuid',
         'currency_id' => 'uuid',
-        'parent_id' => 'uuid',
     ];
 
     public function uuidColumns(): array
