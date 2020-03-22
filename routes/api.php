@@ -17,7 +17,6 @@ Route::resource('company', 'CompanyController');
 Route::get('company/{company}/categories', 'CompanyController@categories');
 Route::get('company/{company}/clients', 'CompanyController@clients');
 
-
 Route::resource('journal', 'JournalController');
 Route::post('journal/{journal}/update', 'JournalController@update');
 
