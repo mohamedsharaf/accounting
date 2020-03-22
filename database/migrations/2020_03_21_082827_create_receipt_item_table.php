@@ -17,6 +17,7 @@ class CreateReceiptItemTable extends Migration
             $table->bigIncrements('id');
             $table->uuid('receipt_id')->index();
             $table->uuid('item_id')->index();
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

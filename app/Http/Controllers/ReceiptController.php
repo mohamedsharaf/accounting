@@ -52,7 +52,9 @@ class ReceiptController extends Controller
         //iterable on items
         foreach ($items as $item) {
             //link items with this receipt
-            $receipt->items()->sync($item['id']);
+            $receipt->items()->sync( [
+                $item['id'] => [ 'quantity'=>$item['quantity'] ]
+            ]);
             Item::find($item['id'])->decrement('quantity', $item['quantity']);
         }
 
