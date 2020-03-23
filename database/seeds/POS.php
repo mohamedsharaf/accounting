@@ -17,14 +17,12 @@ class POS extends Seeder
 
         $company = Company::first();
         $branch  = $company->Branches;
-        $currency  = $company->Currencies;
 
         for ($i=0; $i < 10; $i++) { 
             Client::create(
                 [
                     'company_id'=> $company->id,
                     'branch_id'=> $branch[0]->id,
-                    'currency_id'=> $currency[0]->id,
                     'name'=>'Client '. $i,
                     'mobile'=> '0000001' .$i,
                     'email'=>'client'. $i.'@emial.com',
@@ -77,7 +75,7 @@ class POS extends Seeder
 
         $company = Company::first();
         $branch  = $company->Branches;
-        $currency  = $company->Currencies;
+        // $currency  = $company->Currencies;
 
         foreach ($data as $value) {
             if ($value != null) {
@@ -85,7 +83,7 @@ class POS extends Seeder
                 $value['category_id'] = $parent;
                 $value['company_id'] = $company->id;
                 $value['branch_id'] = $branch[0]->id;
-                $value['currency_id'] = $currency[0]->id;
+                // $value['currency_id'] = $currency[0]->id;
                 $items = null;
                 $children = null;
 
@@ -107,7 +105,7 @@ class POS extends Seeder
                     if($item){
                         $item['company_id'] = $company->id;
                         $item['branch_id'] = $branch[0]->id;
-                        $item['currency_id'] = $currency[0]->id;
+                        // $item['currency_id'] = $currency[0]->id;
                         $category->items()->firstOrCreate($item);
                     }
                 }

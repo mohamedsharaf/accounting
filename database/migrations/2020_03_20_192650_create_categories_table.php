@@ -18,7 +18,6 @@ class CreateCategoriesTable extends Migration
 
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
-            $table->uuid('currency_id')->index();
 
             $table->uuid('category_id')->index()->nullable();
             $table->string('title');

@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
 
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
-            $table->uuid('currency_id')->index();
+            // $table->uuid('currency_id')->index();
 
             $table->string('title');
             $table->string('img')->nullable();

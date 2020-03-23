@@ -18,7 +18,6 @@ class CreateClientsTable extends Migration
 
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
-            $table->uuid('currency_id')->index();
 
             $table->string('name');
             $table->string('mobile');
