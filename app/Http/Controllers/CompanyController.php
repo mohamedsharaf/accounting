@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Client;
 use Illuminate\Http\Request;
 use App\Helpers\CategoryHelper;
 
@@ -104,9 +105,32 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function clients(Company $company)
+    public function clients(Request $request)
     {
-        return response()->json($company->clients, 200);
+        $clients = [];
+        $searchKey = $request->searchKey;
+        $company   = $request->company_id;
+        $branch   = $request->branch_id;
+        
+        if($searchKey != null && $searchKey != ''){
+            $clients = Client::where([
+                ['company_id', $company],
+                ['branch_id', $branch],
+                ['mobile', $searchKey],
+
+            ])->orWhere([
+                ['name' , 'like' , '%' . $searchKey . '%'],
+            ])->get();
+            
+        }
+        else{
+            $clients = Client::where([
+                ['company_id', $company],
+                ['branch_id', $branch],
+            ])->get();
+        }
+
+        return response()->json($clients, 200);
     }
 
 

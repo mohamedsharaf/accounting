@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use Illuminate\Http\Request;
-
+use Validator;
 class ClientController extends Controller
 {
     /**
@@ -35,7 +35,15 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = Validator::make($request->all(),[
+            'mobile'=> ['required']
+        ]);
+
+        if($validation->fails()) return response()->json($validation->errors()->all(), 422);
+
+        $client = Client::firstOrCreate($request->all());
+        
+        return response()->json($client, 200);
     }
 
     /**

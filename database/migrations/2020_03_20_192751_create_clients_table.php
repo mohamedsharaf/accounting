@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
 
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('mobile');
             $table->string('email')->nullable();
             $table->string('address')->nullable();
