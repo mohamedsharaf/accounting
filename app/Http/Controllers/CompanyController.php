@@ -127,7 +127,7 @@ class CompanyController extends Controller
             $clients = Client::where([
                 ['company_id', $company],
                 ['branch_id', $branch],
-            ])->get();
+            ])->limit(50)->get();
         }
 
         return response()->json($clients, 200);
