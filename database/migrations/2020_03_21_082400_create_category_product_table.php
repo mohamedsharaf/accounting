@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReceiptItemTable extends Migration
+class CreateCategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateReceiptItemTable extends Migration
      */
     public function up()
     {
-        Schema::create('receipt_item', function (Blueprint $table) {
+        Schema::create('category_product', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('receipt_id')->index();
-            $table->uuid('item_id')->index();
-            $table->integer('quantity');
+            $table->uuid('category_id')->index();
+            $table->uuid('product_id')->index();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateReceiptItemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('receipt_item');
+        Schema::dropIfExists('category_product');
     }
 }

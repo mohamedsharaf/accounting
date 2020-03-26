@@ -39,7 +39,7 @@ class POS extends Seeder
                     //sub level 1
                     [
                         'title' => 'كوبايات',
-                        "items" => [
+                        "products" => [
                             ['title' => 'فانليا', 'img' => url('http://accounting.test/1.jpg'), 'quantity' => 3, 'price' => 10],
                             ['title' => 'مستكه', 'img' => url('http://accounting.test/2.jpg'), 'quantity' => 4, 'price' => 2],
                             ['title' => 'فسدق', 'img' => url('http://accounting.test/3.jpg'), 'quantity' => 5, 'price' => 4],
@@ -51,7 +51,7 @@ class POS extends Seeder
                     //sub level 1
                     [
                         'title' => 'بسكويت',
-                        "items" => [
+                        "products" => [
                             [ 'title'=> 'فانليا', 'img'=> url('http://accounting.test/1.jpg'), 'quantity'=> 4, 'price'=> 12 ],
                             [ 'title'=> 'مستكه', 'img'=> url('http://accounting.test/2.jpg'), 'quantity'=> 3, 'price'=> 20 ],
                             [ 'title'=> 'فسدق', 'img'=> url('http://accounting.test/3.jpg'), 'quantity'=> 6, 'price'=> 40 ],
@@ -81,15 +81,15 @@ class POS extends Seeder
             if ($value != null) {
 
                 $value['category_id'] = $parent;
-                $value['company_id'] = $company->id;
-                $value['branch_id'] = $branch[0]->id;
+                $value['company_id']  = $company->id;
+                $value['branch_id']   = $branch[0]->id;
                 // $value['currency_id'] = $currency[0]->id;
-                $items = null;
+                $products = null;
                 $children = null;
 
-                if (isset($value['items'])) {
-                    $items = $value['items'];
-                    unset($value['items']);
+                if (isset($value['products'])) {
+                    $products = $value['products'];
+                    unset($value['products']);
                 }
 
                 if (isset($value['children'])) {
@@ -100,13 +100,13 @@ class POS extends Seeder
                 $category = Category::firstOrCreate($value);
                 
                 //insert items/products
-                if($items != null)
-                foreach ($items as $item) {
+                if($products != null)
+                foreach ($products as $item) {
                     if($item){
                         $item['company_id'] = $company->id;
                         $item['branch_id'] = $branch[0]->id;
                         // $item['currency_id'] = $currency[0]->id;
-                        $category->items()->firstOrCreate($item);
+                        $category->products()->firstOrCreate($item);
                     }
                 }
                 

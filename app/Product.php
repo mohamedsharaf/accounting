@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Item extends Model
+class Product extends Model
 {
 
     protected $guarded = [];
@@ -21,13 +21,13 @@ class Item extends Model
 
     public function category()
     {
-        return $this->belongsToMany(Category::class, 'category_item');
+        return $this->belongsToMany(Category::class, 'category_product');
     }
 
 
     public function receipt()
     {
-        return $this->belongsToMany(Receipt::class, 'receipt_item');
+        return $this->belongsToMany(Receipt::class, 'receipt_product');
     }
 
 

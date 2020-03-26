@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Receipt;
-use App\Item;
+use App\Product;
 use Illuminate\Http\Request;
 use Validator;
 class ReceiptController extends Controller
@@ -39,23 +39,23 @@ class ReceiptController extends Controller
         $validation = Validator::make($request->all(),[
             'client_id'=> 'required',
             'total_payable'=>'required',
-            'items'=>'required',
+            'products'=>'required',
         ]);
         
         if($validation->fails()) return response()->json($validation->errors()->all(), 422);
-        
-        $items = $request->items;
-        unset($request['items']);
+
+        $products = $request->products;
+        unset($request['products']);
 
         $receipt = Receipt::create($request->all());
 
-        //iterable on items
-        foreach ($items as $item) {
-            //link items with this receipt
-            $receipt->items()->sync( [
-                $item['id'] => [ 'quantity'=>$item['quantity'] ]
+        //iterable on products
+        foreach ($products as $product) {
+            //link products with this receipt
+            $receipt->products()->sync( [
+                $product['id'] => [ 'quantity'=> $product['quantity'] ]
             ]);
-            Item::find($item['id'])->decrement('quantity', $item['quantity']);
+            Product::find($product['id'])->decrement('quantity', $product['quantity']);
         }
 
 

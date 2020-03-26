@@ -4,7 +4,7 @@ namespace App;
 class Category extends Model
 {
 
-    public $with = ['items'];
+    public $with = ['products'];
     protected $guarded =[];
 
     protected $casts = [
@@ -20,9 +20,9 @@ class Category extends Model
         return [ 'id' ];
     }
 
-    public function items()
+    public function products()
     {
-        return $this->belongsToMany(Item::class, 'category_item');
+        return $this->belongsToMany(Product::class, 'category_product');
     }
 
 

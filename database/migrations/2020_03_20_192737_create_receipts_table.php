@@ -28,8 +28,8 @@ class CreateReceiptsTable extends Migration
             $table->string('total_payable')->nullable();
             $table->string('total_payed')->nullable();
 
-            $table->string('payment_type')->default('cash'); // cash/card/multipay
-            $table->string('status')->default('none'); // none/payed/draft
+            $table->string('payment_type')->default('none'); // none/cash/card
+            $table->string('status')->default('draft'); // payed/draft
             
             $table->timestamps();
             $table->softDeletes();

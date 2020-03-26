@@ -6,9 +6,9 @@ class Receipt extends Model
 {
     protected $guarded = [];
 
-    public function items()
+    public function products()
     {
-        return $this->belongsToMany(Item::class, 'receipt_item');
+        return $this->belongsToMany(Product::class, 'receipt_product');
     }
 
     public function client()
