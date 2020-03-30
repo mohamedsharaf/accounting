@@ -19,10 +19,8 @@ class CreateProductsTable extends Migration
 
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
-            // $table->uuid('currency_id')->index();
 
             $table->string('title');
-            $table->string('img')->nullable();
             $table->integer('quantity')->default(0);
             $table->integer('price')->default(0);
             $table->timestamps();

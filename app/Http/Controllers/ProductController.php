@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
-
+use Validator;
 class ProductController extends Controller
 {
     /**
@@ -35,7 +36,26 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation  = Validator::make($request->all(), [
+            'title'=>'required',
+            'price'=>'required',
+            'company_id'=>'required',
+            'category_id'=>'required',
+            'quantity'=>'required',
+            'image'=>'required'
+        ]);
+
+
+        if($validation->fails()) return response()->json($validation->errors()->all(), 442, );
+        
+        $category = Category::find($request->category_id);
+
+        $image = $request->file('image');
+
+        $product = $category->products()->firstOrCreate($request->all());
+        $product->addMedia($image)->toMediaCollection('product_image');
+
+        return response()->json($product, 200);
     }
 
     /**

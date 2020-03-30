@@ -4,7 +4,8 @@ use Illuminate\Database\Seeder;
 use App\Company;
 use App\Category;
 use App\Client;
-
+use App\Product;
+use Spatie\MediaLibrary\Models\Media;
 class POS extends Seeder
 {
     /**
@@ -40,24 +41,24 @@ class POS extends Seeder
                     [
                         'title' => 'كوبايات',
                         "products" => [
-                            ['title' => 'فانليا', 'img' => url('http://accounting.test/1.jpg'), 'quantity' => 3, 'price' => 10],
-                            ['title' => 'مستكه', 'img' => url('http://accounting.test/2.jpg'), 'quantity' => 4, 'price' => 2],
-                            ['title' => 'فسدق', 'img' => url('http://accounting.test/3.jpg'), 'quantity' => 5, 'price' => 4],
-                            ['title' => 'بندق', 'img' => url('http://accounting.test/1.jpg'), 'quantity' => 8, 'price' => 7],
-                            ['title' => 'زبادي', 'img' => url('http://accounting.test/3.jpg'), 'quantity' => 6, 'price' => 8],
-                            ['title' => 'بطيخ', 'img' => url('http://accounting.test/2.jpg'), 'quantity' => 3, 'price' => 9],
+                            ['title' => 'فانليا',  'quantity' => 3, 'price' => 10],
+                            ['title' => 'مستكه',  'quantity' => 4, 'price' => 2],
+                            ['title' => 'فسدق',  'quantity' => 5, 'price' => 4],
+                            ['title' => 'بندق',  'quantity' => 8, 'price' => 7],
+                            ['title' => 'زبادي',  'quantity' => 6, 'price' => 8],
+                            ['title' => 'بطيخ',  'quantity' => 3, 'price' => 9],
                         ]
                     ],
                     //sub level 1
                     [
                         'title' => 'بسكويت',
                         "products" => [
-                            [ 'title'=> 'فانليا', 'img'=> url('http://accounting.test/1.jpg'), 'quantity'=> 4, 'price'=> 12 ],
-                            [ 'title'=> 'مستكه', 'img'=> url('http://accounting.test/2.jpg'), 'quantity'=> 3, 'price'=> 20 ],
-                            [ 'title'=> 'فسدق', 'img'=> url('http://accounting.test/3.jpg'), 'quantity'=> 6, 'price'=> 40 ],
-                            [ 'title'=> 'بندق', 'img'=> url('http://accounting.test/1.jpg'), 'quantity'=> 7, 'price'=> 10 ],
-                            [ 'title'=> 'زبادي', 'img'=> url('http://accounting.test/3.jpg'), 'quantity'=> 2, 'price'=> 9 ],
-                            [ 'title'=> 'بطيخ', 'img'=> url('http://accounting.test/2.jpg'), 'quantity'=> 1, 'price'=> 20 ],
+                            [ 'title'=> 'فانليا',  'quantity'=> 4, 'price'=> 12 ],
+                            [ 'title'=> 'مستكه',  'quantity'=> 3, 'price'=> 20 ],
+                            [ 'title'=> 'فسدق',  'quantity'=> 6, 'price'=> 40 ],
+                            [ 'title'=> 'بندق',  'quantity'=> 7, 'price'=> 10 ],
+                            [ 'title'=> 'زبادي',  'quantity'=> 2, 'price'=> 9 ],
+                            [ 'title'=> 'بطيخ',  'quantity'=> 1, 'price'=> 20 ],
                         ]
                     ]
                 ],
@@ -106,7 +107,8 @@ class POS extends Seeder
                         $item['company_id'] = $company->id;
                         $item['branch_id'] = $branch[0]->id;
                         // $item['currency_id'] = $currency[0]->id;
-                        $category->products()->firstOrCreate($item);
+                        $product  = $category->products()->firstOrCreate($item);
+                       $product->addMedia(public_path('dummy/3.jpg'))->preservingOriginal()->toMediaCollection('file');
                     }
                 }
                 

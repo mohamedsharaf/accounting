@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Client;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Helpers\CategoryHelper;
 
@@ -96,6 +97,13 @@ class CompanyController extends Controller
     {
         $categories =  $company->categories()->whereNull('category_id')->get();
         $categories = CategoryHelper::getChildrenOfCategoriesParents($categories);
+        return response()->json($categories, 200);
+    }
+
+    
+    public function allCategories($company)
+    {
+        $categories =  Category::where('company_id', $company)->get();
         return response()->json($categories, 200);
     }
 

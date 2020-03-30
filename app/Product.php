@@ -2,16 +2,20 @@
 
 namespace App;
 
-class Product extends Model
-{
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-    protected $guarded = [];
+class Product extends Model implements HasMedia
+{
+    use InteractsWithMedia;
+    
+    protected $fillable = ['id','title','price','quantity', 'company_id', 'branch_id'];
 
     protected $casts = [
         'id' => 'uuid',
         'company_id' => 'uuid',
         'branch_id' => 'uuid',
-        'currency_id' => 'uuid',
+        // 'currency_id' => 'uuid',
     ];
 
     public function uuidColumns(): array
