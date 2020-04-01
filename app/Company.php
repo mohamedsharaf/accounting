@@ -67,6 +67,11 @@ class Company extends Model
     {
         return $this->hasMany(Category::class)->where('category_id',null);
     }
+   
+    public function products()
+    {
+        return $this->hasMany(Product::class)->with('media','category');
+    }
 
     public function clients()
     {

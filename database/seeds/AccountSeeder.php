@@ -107,7 +107,7 @@ class AccountSeeder extends Seeder
                 $value['parent_id'] = $parent;
                 $value['company_id'] = $company->id ;
                 $value['branch_id'] = $branch[0]->id ;
-                $value['currency_id'] = $currency[0]->id;
+                $value['currency_id'] = $currency[0]->id ?? null;
                 $children = null;
 
                 if(isset($value['children'])){

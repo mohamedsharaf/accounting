@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::resource('company', 'CompanyController');
 Route::get('company/{company}/categories', 'CompanyController@categories');
 Route::get('company/{company}/allcategories', 'CompanyController@allCategories');
+Route::get('company/{company}/products', 'CompanyController@products');
+
 Route::post('company/clients', 'CompanyController@clients');
 
 Route::resource('journal', 'JournalController');
@@ -36,6 +38,7 @@ Route::post('account/search', 'AccountController@search');
 Route::resource('receipt', 'ReceiptController');
 Route::resource('client', 'ClientController');
 Route::resource('product', 'ProductController');
+Route::post('product/{product}/update', 'ProductController@update');
 
 // Route::post('test/upload', 'CostControlController@test');
 

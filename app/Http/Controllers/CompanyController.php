@@ -100,6 +100,17 @@ class CompanyController extends Controller
         return response()->json($categories, 200);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function products(Company $company)
+    {
+        $products =  $company->products;
+        return response()->json($products, 200);
+    }
+
     
     public function allCategories($company)
     {

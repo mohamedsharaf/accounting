@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Product::all(), 200);
     }
 
     /**
@@ -49,11 +49,9 @@ class ProductController extends Controller
         if($validation->fails()) return response()->json($validation->errors()->all(), 442, );
         
         $category = Category::find($request->category_id);
-
-        $image = $request->file('image');
-
-        $product = $category->products()->firstOrCreate($request->all());
-        $product->addMedia($image)->toMediaCollection('product_image');
+        
+        $product = $category->products()->firstOrCreate($request->except('image', 'category_id'));
+        $product->addMedia($request->file('image'))->toMediaCollection('product_image');
 
         return response()->json($product, 200);
     }
@@ -66,7 +64,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product['category'] = $product->category;
+        return response()->json($product, 200);
     }
 
     /**
@@ -89,7 +88,26 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validation  = Validator::make($request->all(), [
+            'title' => 'required',
+            'price' => 'required',
+            'category_id' => 'required',
+            'quantity' => 'required',
+        ]);
+
+
+        if ($validation->fails()) return response()->json($validation->errors()->all(), 442,);
+
+        $product->update($request->except('image', 'category_id'));
+        $product->category()->sync($request->category_id);
+
+        if($request->hasFile('image'))
+        {
+            $product->deletePreservingMedia(); 
+            $product->addMedia($request->file('image'))->toMediaCollection('product_image');
+        }
+
+        return response()->json($product, 200);
     }
 
     /**
@@ -100,6 +118,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->deletePreservingMedia();
+        $product->delete();
+        return response()->json(true, 200,);
     }
 }

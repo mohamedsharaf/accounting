@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class Product extends Model implements HasMedia
 {
-    use InteractsWithMedia;
-    
-    protected $fillable = ['id','title','price','quantity', 'company_id', 'branch_id'];
+    use HasMediaTrait;
+    protected $fillable = [ 'id' ,'title' ,'price' ,'quantity', 'company_id', 'branch_id', 'category_id'];
 
     protected $casts = [
         'id' => 'uuid',
@@ -33,6 +33,9 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsToMany(Receipt::class, 'receipt_product');
     }
+    
+
+
 
 
 }
