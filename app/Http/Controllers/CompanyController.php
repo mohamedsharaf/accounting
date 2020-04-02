@@ -114,7 +114,7 @@ class CompanyController extends Controller
     
     public function allCategories($company)
     {
-        $categories =  Category::where('company_id', $company)->get();
+        $categories =  Category::with('parent')->where('company_id', $company)->get();
         return response()->json($categories, 200);
     }
 

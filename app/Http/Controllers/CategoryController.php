@@ -6,7 +6,7 @@ use App\Category;
 use App\Company;
 use App\Helpers\CategoryHelper;
 use Illuminate\Http\Request;
-
+use Validator;
 class CategoryController extends Controller
 {
     /**
@@ -38,7 +38,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation  = Validator::make($request->all(), [
+            'title' => 'required',
+            'company_id' => 'required',
+            'branch_id' => 'required',
+        ]);
+
+        if ($validation->fails()) return response()->json($validation->errors()->all(), 442,);
+
+        $product = Category::firstOrCreate($request->all());
+
+        return response()->json($product, 200);
     }
 
     /**
@@ -49,7 +59,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return response()->json($category, 200);
     }
 
     /**
@@ -72,17 +82,29 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validation  = Validator::make($request->all(), [
+            'title' => 'required',
+            'company_id' => 'required',
+            'branch_id' => 'required',
+        ]);
+
+        if ($validation->fails()) return response()->json($validation->errors()->all(), 442,);
+
+        $product = $category->update($request->all());
+
+        return response()->json($product, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Category $category)
     {
-        //
+        $category->children()->delete();
+        $category->delete();
+        return response()->json(true, 200,);
     }
 }

@@ -40,6 +40,7 @@ Route::resource('client', 'ClientController');
 Route::resource('product', 'ProductController');
 Route::post('product/{product}/update', 'ProductController@update');
 
+Route::resource('category', 'CategoryController');
 // Route::post('test/upload', 'CostControlController@test');
 
 
