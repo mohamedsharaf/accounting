@@ -41,6 +41,9 @@ Route::resource('product', 'ProductController');
 Route::post('product/{product}/update', 'ProductController@update');
 
 Route::resource('category', 'CategoryController');
-// Route::post('test/upload', 'CostControlController@test');
+Route::post('auth/register', 'passportController@register');
+Route::post('auth/login', 'passportController@login');
+
+Route::post('test/upload', 'CostControlController@test')->middleware('auth:api');
 
 
