@@ -49,7 +49,7 @@ class JournalController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $validation = Validator::Make($request->all(),
             [
                 'paid_at'=>'required',
@@ -58,6 +58,7 @@ class JournalController extends Controller
 
         //convert date to dateTime
         $request['paid_at'] = new DateTime($request->paid_at);
+        $request['user_id'] = $request->user()->id;
 
         //add date
         $journal = Journal::create($request->all());

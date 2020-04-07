@@ -36,6 +36,7 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
+        
         $validation = Validator::make($request->all(),[
             'client_id'=> 'required',
             'total_payable'=>'required',
@@ -47,6 +48,7 @@ class ReceiptController extends Controller
         $products = $request->products;
         unset($request['products']);
 
+        $request['user_id'] = $request->user()->id;
         $receipt = Receipt::create($request->all());
 
         //iterable on products

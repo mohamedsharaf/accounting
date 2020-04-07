@@ -17,7 +17,9 @@ class Roles extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
+        //Roles = POS,accounting,Super-admin
+
+        // create permissions 
         Permission::create(['name' => 'read']);
         Permission::create(['name' => 'edit']);
         Permission::create(['name' => 'delete']);
@@ -39,6 +41,12 @@ class Roles extends Seeder
 
         $role3 = Role::create(['name' => 'super-admin']);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
+        $role3->givePermissionTo('read');
+        $role3->givePermissionTo('write');
+        $role3->givePermissionTo('publish');
+        $role3->givePermissionTo('unpublish');
+        $role3->givePermissionTo('edit');
+        $role3->givePermissionTo('delete');
 
         // create demo users
         $user = Factory(App\User::class)->create([

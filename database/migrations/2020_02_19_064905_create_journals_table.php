@@ -20,7 +20,7 @@ class CreateJournalsTable extends Migration
 
             $table->uuid('company_id');
             $table->uuid('branch_id');
-
+            $table->unsignedBigInteger('user_id');
             $table->double('amount', 15, 4);//total
             $table->date('paid_at'); //date
 

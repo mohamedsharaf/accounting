@@ -13,37 +13,41 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('company', 'CompanyController');
-Route::get('company/{company}/categories', 'CompanyController@categories');
-Route::get('company/{company}/allcategories', 'CompanyController@allCategories');
-Route::get('company/{company}/products', 'CompanyController@products');
 
-Route::post('company/clients', 'CompanyController@clients');
-
-Route::resource('journal', 'JournalController');
-Route::post('journal/{journal}/update', 'JournalController@update');
-
-Route::get('journal/bycompany/{company}', 'JournalController@indexCompany');
-Route::get('ledger/bycompany/{company}', 'LedgerController@indexCompany');
-Route::post('ledger/search', 'LedgerController@search');
+Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], function () {
 
 
-Route::get('journal/media/{media}', 'JournalController@openFile');
-Route::delete('journal/media/{media}', 'JournalController@deleteFile');
+    Route::resource('company', 'CompanyController');
+    Route::get('company/{company}/categories', 'CompanyController@categories');
+    Route::get('company/{company}/allcategories', 'CompanyController@allCategories');
+    Route::get('company/{company}/products', 'CompanyController@products');
+
+    Route::post('company/clients', 'CompanyController@clients');
+
+    Route::resource('journal', 'JournalController');
+    Route::post('journal/{journal}/update', 'JournalController@update');
+
+    Route::get('journal/bycompany/{company}', 'JournalController@indexCompany');
+    Route::get('ledger/bycompany/{company}', 'LedgerController@indexCompany');
+    Route::post('ledger/search', 'LedgerController@search');
 
 
-Route::resource('account', 'AccountController');
-Route::post('account/search', 'AccountController@search');
+    Route::get('journal/media/{media}', 'JournalController@openFile');
+    Route::delete('journal/media/{media}', 'JournalController@deleteFile');
 
-Route::resource('receipt', 'ReceiptController');
-Route::resource('client', 'ClientController');
-Route::resource('product', 'ProductController');
-Route::post('product/{product}/update', 'ProductController@update');
 
-Route::resource('category', 'CategoryController');
+    Route::resource('account', 'AccountController');
+    Route::post('account/search', 'AccountController@search');
+
+    Route::resource('receipt', 'ReceiptController');
+    Route::resource('client', 'ClientController');
+    Route::resource('product', 'ProductController');
+    Route::post('product/{product}/update', 'ProductController@update');
+
+    Route::resource('category', 'CategoryController');
+    Route::get('test/upload', 'CostControlController@test');    
+});
+
+
 Route::post('auth/register', 'passportController@register');
 Route::post('auth/login', 'passportController@login');
-
-Route::post('test/upload', 'CostControlController@test')->middleware('auth:api');
-
-

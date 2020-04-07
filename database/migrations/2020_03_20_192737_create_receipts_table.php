@@ -20,7 +20,8 @@ class CreateReceiptsTable extends Migration
             $table->uuid('company_id')->index();
             $table->uuid('branch_id')->index();
             $table->uuid('currency_id')->index();
-
+            $table->unsignedBigInteger('user_id');
+            
             $table->uuid('client_id')->index();
             $table->string('barcode')->nullable();
             $table->string('discount')->nullable();
