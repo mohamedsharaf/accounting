@@ -22,6 +22,7 @@ class Company extends Model
         'id' => 'uuid',
         'currency_id' => 'uuid',
     ];
+    
     public function uuidColumns(): array
     {
         return [
@@ -30,6 +31,36 @@ class Company extends Model
         ];
     }
 
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany('App\Project')->with('employees');
+    }
+
+    public function employees()
+    {
+        return $this->hasMany('App\Employee');
+    }
+
+    public function sections()
+    {
+        return $this->hasMany('App\Section');
+    }
+
+    public function contacts()
+    {
+        return $this->hasMany('App\Contact');
+    }
+
+    public function letters()
+    {
+        return $this->hasMany('App\Letter');
+    }
 
     public function Branches()
     {

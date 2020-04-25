@@ -17,9 +17,18 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = Company::all();
+        $company = Company::with('projects', 'employees')->get();
         return response()->json($company, 200);
     }
+
+    public function get(Company $company)
+    {
+        if ($company) {
+            return response()->json($company, 200);
+        }
+        return response()->json(false, 422);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +48,24 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = ['id' => 1];
+
+        $validation = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json('اسم الشركه مطلوب', 422);
+        }
+
+        $comapny = Company::create(
+            [
+                'name' => $request->name,
+                'user_id' => $user['id']
+            ]
+        );
+
+        return response()->json(true, 200);
     }
 
     /**
@@ -73,7 +99,21 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json('اسم الشركه مطلوب', 422);
+        }
+        if (!$company) {
+            return response()->json('يوحد مشكله', 422);
+        }
+
+        $company->name = $request->name;
+        $company->save();
+
+        return response()->json(true, 200);
     }
 
     /**
@@ -84,7 +124,11 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        if ($company) {
+            $company->delete();
+            return response()->json(true, 200);
+        }
+        return response()->json(false, 422);
     }
 
 

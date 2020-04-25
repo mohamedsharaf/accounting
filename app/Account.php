@@ -9,6 +9,17 @@ class Account extends Model
 {
     public $translatable = ['name'];
 
+    protected $casts = [
+        'id' => 'uuid',
+    ];
+
+    public function uuidColumns(): array
+    {
+        return [
+            'id'
+        ];
+    }
+
     protected $fillable = [
         'id',
         'parent_id',

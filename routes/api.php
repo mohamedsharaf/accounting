@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use App\Company;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,9 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/', function () {
+    $company = Company::first();
+    $branch  = $company->Branches;
+    $currency  = $company->Currencies;
+    return $currency[0]->id;
+});
 
 Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], function () {
-
 
     Route::resource('company', 'CompanyController');
     Route::get('company/{company}/categories', 'CompanyController@categories');
@@ -45,7 +50,58 @@ Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], 
     Route::post('product/{product}/update', 'ProductController@update');
 
     Route::resource('category', 'CategoryController');
-    Route::get('test/upload', 'CostControlController@test');    
+    Route::get('test/upload', 'CostControlController@test');
+
+
+    ////EKafel
+
+
+    Route::any('auth/login', 'AuthController@login');
+    Route::any('auth/logout', 'AuthController@logout');
+
+    //Employees
+    Route::any('employee/store', 'EmployeesController@store');
+    Route::any('company/{company}/employees/all', 'EmployeesController@getAll');
+    Route::any('company/{company}/employees/trash', 'EmployeesController@trash');
+    Route::any('employees/{employee}/increment/iqama', 'EmployeesController@incrementIqama');
+    Route::any('employees/{employee}', 'EmployeesController@get');
+    Route::any('employees/{employee}/update', 'EmployeesController@update');
+    Route::any('employee/{employee}/softdelete', 'EmployeesController@softDelete');
+    Route::any('employee/{employee}/removefromproject/{project}', 'EmployeesController@removeFromProject');
+    Route::any('employee/import', 'EmployeesController@importFromCSVFile');
+
+    // Section
+    Route::resource('section', 'SectionController');
+    Route::get('company/{company}/section', 'SectionController@companySection');
+
+    //holidays type
+    Route::resource('holiday-type', 'HolidayTypeController');
+    Route::resource('holiday', 'HolidayController');
+
+    //contacts
+    Route::get('contact/{company}', 'ContactController@index');
+    Route::resource('contact', 'ContactController');
+
+    //letters
+    Route::get('letter/{company}', 'LetterController@index');
+    Route::resource('letter', 'LetterController');
+
+    //Company
+    Route::any('company/store', 'CompaniesController@store');
+    Route::any('company/{company}/update', 'CompaniesController@update');
+    Route::any('company/all', 'CompaniesController@all');
+    Route::any('company/{company}/delete', 'CompaniesController@delete');
+    Route::any('company/{company}', 'CompaniesController@get');
+
+    //Projects
+    Route::any('company/{company}/project/store', 'ProjectsController@store');
+    Route::any('project/{project}/update', 'ProjectsController@update');
+    Route::any('company/{company}/project/all', 'ProjectsController@all');
+    Route::any('project/{project}/delete', 'ProjectsController@delete');
+    Route::any('project/{project}', 'ProjectsController@get');
+    Route::any('company/{company}/projects/', 'ProjectsController@getProjectsOfCompany');
+
+
 });
 
 

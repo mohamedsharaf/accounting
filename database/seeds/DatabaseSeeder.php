@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             $this->call(AccountSeeder::class);
             $this->call(POS::class);
             $this->call(Roles::class);
-//         $this->call(AccountSeeder::class);
+        //$this->call(AccountSeeder::class);
+        $this->call(InjectEmployees::class);
+        $this->call(HolidayTypes::class);
     }
 }
