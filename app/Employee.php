@@ -2,11 +2,27 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'id', 'company_id', 'section_id',
+        'iqama_number',
+        'name',
+        'gender',
+        'nationality',
+        'occupation',
+        'passport_number',
+        'passport_expiry_date_hijri',
+        'passport_expiry_date_gregorian',
+        'iqama_expiry_date_hijri',
+        'iqama_expiry_date_gregorian',
+        'insurance_status',
+        'insurance_expiry',
+        'status',
+        'trash'
+    ];
 
     protected $casts = [
         'id' => 'uuid',

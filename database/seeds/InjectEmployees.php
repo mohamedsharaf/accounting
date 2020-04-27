@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Company;
+use App\Employee;
+
 class InjectEmployees extends Seeder
 {
 
@@ -17,7 +20,7 @@ class InjectEmployees extends Seeder
      */
     public function run()
     {
-
+        $company = Company::first();
         $row = 1;
         $importCount = 1000;
         $splitSymbol = ',';
@@ -40,11 +43,11 @@ class InjectEmployees extends Seeder
                     $iqama_expiry_date_gregorian =  $this->correctDate($data[9]);
                     $status = $data[10];
 
-        
-                    DB::table('employees')->insert([
+
+                    Employee::create([
                        'iqama_number'=>$iqama_number, 
                        'name'=>$name, 
-                       'company_id'=>1,
+                       'company_id'=> $company->id,
                        'gender'=>$gender, 
                        'nationality'=>$nationality, 
                        'occupation'=>$occupation, 

@@ -14,10 +14,10 @@ class CreateEmployeesTable extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('company_id')->index();
             // $table->bigIncrements('id');
             // $table->unsignedInteger('company_id');
+            $table->uuid('id')->primary();
+            $table->uuid('company_id')->index();
             $table->uuid('section_id')->index()->nullable();
             $table->string('iqama_number');
             $table->string('name');
