@@ -8,7 +8,7 @@ class Company extends Model
 {
 
     public $translatable = ['name'];
-    public $with = ['branches', 'Currencies', 'projects', 'employees'];
+    public $with = ['branches', 'Currencies', 'projects', 'employees', 'Accounts', 'journals'];
 
     protected $fillable = [
         'id',
