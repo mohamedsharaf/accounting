@@ -87,11 +87,11 @@ Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], 
     Route::resource('letter', 'LetterController');
 
     //Company
-    Route::any('company/store', 'CompaniesController@store');
-    Route::any('company/{company}/update', 'CompaniesController@update');
-    Route::any('company/all', 'CompaniesController@all');
-    Route::any('company/{company}/delete', 'CompaniesController@delete');
-    Route::any('company/{company}', 'CompaniesController@get');
+    Route::any('company/store', 'CompanyController@store');
+    Route::any('company/{company}/update', 'CompanyController@update');
+    Route::any('company/all', 'CompanyController@index');
+    Route::any('company/{company}/delete', 'CompanyController@delete');
+    Route::any('company/{company}', 'CompanyController@get');
 
     //Projects
     Route::any('company/{company}/project/store', 'ProjectsController@store');

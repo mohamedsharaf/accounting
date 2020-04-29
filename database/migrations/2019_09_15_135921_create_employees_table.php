@@ -36,6 +36,7 @@ class CreateEmployeesTable extends Migration
             $table->boolean('trash')->default(0);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

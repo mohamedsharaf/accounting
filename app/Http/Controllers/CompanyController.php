@@ -7,6 +7,7 @@ use App\Client;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Helpers\CategoryHelper;
+use Validator;
 
 class CompanyController extends Controller
 {
@@ -17,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = Company::with('projects', 'employees')->get();
+        $company = Company::all();
         return response()->json($company, 200);
     }
 
