@@ -16,7 +16,7 @@ class CreateHolidaysTable extends Migration
         Schema::create('holidays', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('holidayType_id');
-            // $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
             $table->uuid('company_id')->index();
             $table->unsignedBigInteger('approver_id'); //who  approved on this vication
             $table->dateTime('start');
@@ -24,6 +24,7 @@ class CreateHolidaysTable extends Migration
             $table->integer('duration')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
