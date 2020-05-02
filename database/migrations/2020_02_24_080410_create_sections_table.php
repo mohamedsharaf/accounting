@@ -20,6 +20,7 @@ class CreateSectionsTable extends Migration
             // $table->unsignedInteger('company_id');
             $table->string('title');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

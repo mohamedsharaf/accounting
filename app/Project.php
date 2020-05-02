@@ -2,24 +2,24 @@
 
 namespace App;
 
-// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'id' => 'uuid',
-        'currency_id' => 'uuid',
-    ];
+    // protected $casts = [
+    //     'id' => '',
+    //     'currency_id' => 'uuid',
+    // ];
 
-    public function uuidColumns(): array
-    {
-        return [
-            'id',
-            'currency_id'
-        ];
-    }
+    // public function uuidColumns(): array
+    // {
+    //     return [
+    //         'id',
+    //         'currency_id'
+    //     ];
+    // }
 
     public function employees()
     {

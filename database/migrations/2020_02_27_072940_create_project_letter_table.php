@@ -15,9 +15,9 @@ class CreateProjectLetterTable extends Migration
     {
         Schema::create('project_letter', function (Blueprint $table) {
             $table->bigIncrements('id');
-            // $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id');
             // $table->unsignedBigInteger('letter_id');
-            $table->uuid('project_id')->index();
+            // $table->uuid('project_id')->index();
             $table->uuid('letter_id')->index();
             $table->timestamps();
         });

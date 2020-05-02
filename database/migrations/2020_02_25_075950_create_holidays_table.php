@@ -17,7 +17,7 @@ class CreateHolidaysTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('holidayType_id');
             $table->uuid('employee_id');
-            $table->uuid('company_id')->index();
+            // $table->uuid('company_id')->index();
             $table->unsignedBigInteger('approver_id'); //who  approved on this vication
             $table->dateTime('start');
             $table->dateTime('end');

@@ -14,10 +14,9 @@ class CreateEmployeeProjectTable extends Migration
     public function up()
     {
         Schema::create('employee_project', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('project_id')->index();
+            $table->bigIncrements('id');
+            $table->unsignedInteger('project_id');
             $table->uuid('employee_id')->index();
-            
             // $table->bigIncrements('id');
             // $table->unsignedInteger('project_id');
             // $table->unsignedInteger('employee_id');

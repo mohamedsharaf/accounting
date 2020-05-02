@@ -88,10 +88,11 @@ class ProjectsController extends Controller
         if (!$company) {
             return response()->json('يوحد مشكله', 422);
         }
+
         $project = $company->projects()->create([
             'name' => $request->name,
         ]);
-
+        
         $project->employees()->sync($request->employees);
 
         return response()->json(true, 200);
