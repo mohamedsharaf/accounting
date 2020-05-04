@@ -13,12 +13,10 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $company = $request->company;
-        $contacts = Company::find($company);
-        
-        return response()->json($contacts->contacts, 200);
+        $contacts = Contact::all();
+        return response()->json($contacts, 200);
     }
 
     /**

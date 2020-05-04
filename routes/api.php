@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], 
     Route::resource('holiday', 'HolidayController');
 
     //contacts
-    Route::get('contact/{company}', 'ContactController@index');
+    // Route::get('contact/{company}', 'ContactController@index');
     Route::resource('contact', 'ContactController');
 
     //letters
