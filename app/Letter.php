@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Letter extends Model
 {
-
+    protected $with = ['contact'];
     protected $fillable = ['type','subject','content', 'contact_id', 'user_id'];
 
     // protected $casts = [
