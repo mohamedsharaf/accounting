@@ -14,9 +14,9 @@ class CreateSectionsTable extends Migration
     public function up()
     {
         Schema::create('sections', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            // $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('company_id')->index();
-            // $table->bigIncrements('id');
             // $table->unsignedInteger('company_id');
             $table->string('title');
             $table->timestamps();
