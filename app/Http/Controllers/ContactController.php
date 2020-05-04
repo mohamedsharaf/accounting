@@ -39,7 +39,7 @@ class ContactController extends Controller
     {
         try{
 
-            $company = $request->company;
+            $company = $request->company_id;
 
             $validation = Validator::make($request->all(),[
                 'name'=>'required',
