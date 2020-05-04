@@ -14,8 +14,8 @@ class CreateLettersTable extends Migration
     public function up()
     {
         Schema::create('letters', function (Blueprint $table) {
-            // $table->bigIncrements('id');
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
+            // $table->uuid('id')->primary();
             $table->uuid('company_id')->index();
             // $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('contact_id');

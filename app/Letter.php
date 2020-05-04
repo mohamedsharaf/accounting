@@ -2,25 +2,25 @@
 
 namespace App;
 
-// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Letter extends Model
 {
 
     protected $fillable = ['type','subject','content', 'contact_id', 'user_id'];
 
-    protected $casts = [
-        'section_id' => 'uuid',
-        'id' => 'uuid'
-    ];
+    // protected $casts = [
+    //     'section_id' => 'uuid',
+    //     'id' => 'uuid'
+    // ];
 
-    public function uuidColumns(): array
-    {
-        return [
-            'section_id',
-            'id'
-        ];
-    }
+    // public function uuidColumns(): array
+    // {
+    //     return [
+    //         'section_id',
+    //         'id'
+    //     ];
+    // }
 
     public function company()
     {
