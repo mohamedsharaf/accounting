@@ -59,4 +59,9 @@ class Employee extends Model
         return $this->hasMany(Holiday::class, 'employee_id');
     }
 
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
 }

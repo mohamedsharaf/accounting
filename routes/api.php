@@ -85,6 +85,14 @@ Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], 
     //letters
     Route::get('letter/{company}', 'LetterController@index');
     Route::resource('letter', 'LetterController');
+    
+    //tasks
+    Route::any('company/{company}/task/store', 'TaskController@store');
+    Route::any('task/{task}/delete', 'TaskController@delete');
+    Route::any('task/{task}', 'TaskController@get');
+    Route::any('task/{task}/update', 'TaskController@update');
+    Route::any('task/{task}/check', 'TaskController@check');
+
 
     //Company
     Route::any('company/store', 'CompanyController@store');

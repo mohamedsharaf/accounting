@@ -34,6 +34,7 @@ class EmployeesController extends Controller
         $employee['projects']= $employee->projects;
         $employee['sections']= $employee->sections;
         $employee['holidays']= $employee->holidays;
+        $employee['tasks']= $employee->tasks;
 
         return response()->json($employee, 200);
     }

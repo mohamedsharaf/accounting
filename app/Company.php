@@ -8,7 +8,7 @@ class Company extends Model
 {
 
     public $translatable = ['name'];
-    public $with = ['branches', 'Currencies', 'projects', 'employees', 'Accounts', 'journals', 'sections', 'contacts', 'letters'];
+    public $with = ['branches', 'Currencies', 'projects', 'employees', 'Accounts', 'journals', 'sections', 'contacts', 'letters', 'tasks'];
 
     protected $fillable = [
         'id',
@@ -107,6 +107,10 @@ class Company extends Model
     public function clients()
     {
         return $this->hasMany(Client::class);
+    }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
 }
