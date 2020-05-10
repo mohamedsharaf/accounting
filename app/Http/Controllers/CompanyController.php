@@ -22,6 +22,12 @@ class CompanyController extends Controller
         return response()->json($company, 200);
     }
 
+    public function allCompanyForLogin()
+    {
+        $company = Company::all();
+        return response()->json($company, 200);
+    }
+
     public function get(Company $company)
     {
         if ($company) {

@@ -115,3 +115,4 @@ Route::group(['middleware' => ['auth:api', 'role:admin|super-admin|employee']], 
 
 Route::post('auth/register', 'passportController@register');
 Route::post('auth/login', 'passportController@login');
+Route::get('auth/companies', 'CompanyController@allCompanyForLogin');
