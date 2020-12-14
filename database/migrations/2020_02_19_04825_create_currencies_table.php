@@ -29,7 +29,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('decimal_mark')->nullable();
             $table->string('thousands_separator')->nullable();
 
-            $table->tinyInteger('enabled')->default(1);
+            $table->tinyInteger('enabled')->default(1)->index();
 
 
             $table->timestamps();
